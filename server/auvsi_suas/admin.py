@@ -1,6 +1,7 @@
 import auvsi_suas.models.aerial_position  # noqa
 import auvsi_suas.models.fly_zone  # noqa
 import auvsi_suas.models.gps_position  # noqa
+import auvsi_suas.models.map  # noqa
 import auvsi_suas.models.mission_config  # noqa
 import auvsi_suas.models.mission_judge_feedback  # noqa
 import auvsi_suas.models.odlc  # noqa

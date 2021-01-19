@@ -58,6 +58,9 @@ message MissionFeedback {
     // Object detection evaluation data.
     optional MultiOdlcEvaluation odlc = 6;
 
+    // Map evaluation data.
+    optional MapEvaluation map = 8;
+
     // Feedback from judges.
     optional MissionJudgeFeedback judge = 7;
 }
@@ -110,6 +113,17 @@ message OdlcEvaluation {
     optional bool actionable_submission = 13;
     // Whether the submission was autonomous.
     optional bool autonomous_submission = 14;
+}
+
+// Evaluation data for uploaded map.
+message MapEvaluation {
+    // Quality of the uploaded map as evaluated by judge.
+    enum MapQuality {
+        INSUFFICIENT = 0;
+        MEDIUM = 1;
+        HIGH = 2;
+    }
+    optional MapQuality quality = 1;
 }
 
 // Data provided manually by the judges.
@@ -181,6 +195,7 @@ message MissionScore {
     optional AutonomousFlightScore autonomous_flight = 3;
     optional ObstacleAvoidanceScore obstacle_avoidance = 4;
     optional ObjectScore object = 5;
+    optional MapScore map = 8;
     optional AirDropScore air_drop = 6;
     optional OperationalExcellenceScore operational_excellence = 7;
 }
@@ -219,6 +234,11 @@ message ObjectScore {
     optional double actionable = 4;
     optional double autonomy = 5;
     optional double extra_object_penalty = 7;
+}
+
+// Scoring data for map.
+message MapScore {
+    optional double score_ratio = 1;
 }
 
 // Scoring data for air drop.
