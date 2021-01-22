@@ -1,4 +1,4 @@
-"""Tests for the missions module."""
+"""Tests for the odlcs module."""
 
 import functools
 import json

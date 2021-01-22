@@ -1,5 +1,6 @@
 from auvsi_suas.views.login import Login
 from auvsi_suas.views.index import Index
+from auvsi_suas.views.map import MapImage
 from auvsi_suas.views.missions import Evaluate
 from auvsi_suas.views.missions import ExportKml
 from auvsi_suas.views.missions import LiveKml
@@ -38,6 +39,7 @@ urlpatterns = [
     path('api/odlcs/<int:pk>/image', OdlcsIdImage.as_view(), name='odlcs_id_image'),
     path('api/odlcs/review', OdlcsAdminReview.as_view(), name='odlcs_review'),
     path('api/odlcs/review/<int:pk>', OdlcsAdminReview.as_view(), name='odlcs_review_id'),
+    path('api/maps/<int:mission_pk>/<str:username>', MapImage.as_view(), name='map'),
     path('api/teams', Teams.as_view(), name='teams'),
     path('api/teams/<str:username>', Team.as_view(), name='team'),
     path('api/telemetry', Telemetry.as_view(), name='telemetry'),
