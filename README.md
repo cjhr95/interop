@@ -1323,6 +1323,91 @@ HTTP/1.1 200 OK
 Image deleted.
 ```
 
+#### Mapping
+
+##### PUT /api/maps/(int:mission_id)/(str:username)
+
+Add or update map image.
+
+`mission_id` is the unique identifier of a mission, and `username` is the
+username of the user uploading the image.
+
+The request body contains the raw binary content of the image. The image should
+be in either JPEG or PNG format. The request must not exceed 1 MB in size. The
+image must have a 16:9 aspect ratio, and the map should implement the WGS 84
+Web Mercator Projection.
+
+Example Request:
+
+```http
+PUT /api/maps/1/testuser HTTP/1.1
+Host: 192.168.1.2:8000
+Cookie: sessionid=9vepda5aorfdilwhox56zhwp8aodkxwi
+Content-Type: image/jpeg
+
+<binary image content ...>
+```http
+
+Example Response:
+
+```http
+HTTP/1.1 200 OK
+
+Map uploaded.
+```
+
+##### GET /api/maps/(int:mission_id)/(str:username)
+
+Download previously uploaded map. This simple endpoint returns the map image
+uploaded with a `PUT /api/maps/(int:mission_id)/(str:username)` request.
+
+`mission_id` is the unique identifier of a mission, and `username` is the
+username of the user uploading the image.
+
+The response content is the image content itself on success.
+
+Example Request:
+
+```http
+GET /api/maps/1/testuser HTTP/1.1
+Host: 192.168.1.2:8000
+Cookie: sessionid=9vepda5aorfdilwhox56zhwp8aodkxwi
+```
+
+Example Response:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: image/jpeg
+
+<binary image content ...>
+```
+
+##### /api/maps/(int:mission_id)/(str:username)
+
+Delete map image.
+
+`mission_id` is the unique identifier of a mission, and `username` is the
+username of the user uploading the image.
+
+NOTE: You do not need to delete the map image before uploading a new image.
+
+Example Request:
+
+```http
+DELETE /api/maps/1/testuser HTTP/1.1
+Host: 192.168.1.2:8000
+Cookie: sessionid=9vepda5aorfdilwhox56zhwp8aodkxwi
+```
+
+Example Response:
+
+```http
+HTTP/1.1 200 OK
+
+Map deleted.
+```
+
 ## Automation
 
 This section describes how to write admin automation for the interop server by
