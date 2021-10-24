@@ -15,10 +15,11 @@ WAIT = 5 * 1000  # 5 sec.
 
 
 @retrying.retry(wait_fixed=WAIT, stop_max_delay=MAX_DELAY)
-def check_postgres(postgres_host):
+def check_postgres(postgres_host, postgres_user):
     """Check postgres health by attempting to create a TCP connection."""
     logger.info('Checking postgres...')
-    subprocess.check_call(["pg_isready", "-q", "-h", postgres_host])
+    subprocess.check_call(
+        ["pg_isready", "-q", "-h", postgres_host, "-U", postgres_user])
 
 
 @retrying.retry(wait_fixed=WAIT, stop_max_delay=MAX_DELAY)
@@ -42,6 +43,7 @@ def main():
 
     parser.add_argument('--check_postgres', default=False, action='store_true')
     parser.add_argument('--postgres_host', type=str, default='localhost')
+    parser.add_argument('--postgres_user', type=str, default='postgres')
 
     parser.add_argument('--check_homepage', default=False, action='store_true')
     parser.add_argument('--server_host', type=str, default='localhost')
@@ -52,7 +54,7 @@ def main():
     logger.info('Health Check')
 
     if args.check_postgres:
-        check_postgres(args.postgres_host)
+        check_postgres(args.postgres_host, args.postgres_user)
     if args.check_homepage:
         check_homepage(args.server_host, args.server_port)
 
