@@ -6,6 +6,7 @@ from auvsi_suas.proto import interop_admin_api_pb2
 from django.conf import settings
 from django.contrib import admin
 from django.db import models
+from django.utils import html
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +30,14 @@ class Map(models.Model):
                                   null=True,
                                   blank=True)
 
+    def map_link(self):
+        url = '/api/maps/%d/%s' % (self.mission.pk, self.user.username)
+        return html.format_html('<a href=\'{}\' target=_blank>{}</a>', url,
+                                url)
+
 
 @admin.register(Map)
 class MapModelAdmin(admin.ModelAdmin):
     raw_id_fields = ('mission', )
-    list_display = ('pk', 'mission', 'user', 'quality')
+    readonly_fields = ('map_link', )
+    list_display = ('pk', 'mission', 'user', 'quality', 'map_link')
