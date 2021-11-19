@@ -1,0 +1,12 @@
+{
+    "mission" : 1,
+    "alphanumeric" : "A",
+    "alphanumeric_color" : "BLACK",
+    "latitude" : 45,
+    "longitiude" : -89,
+    "shape" : "CROSS",
+    "shape_color" : "WHITE",
+    "type" : "STANDARD",
+    "orientation" : "N",
+    "autonomous" : "false"
+}

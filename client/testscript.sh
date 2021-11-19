@@ -1,0 +1,1 @@
+./tools/interop_cli.py --url http://192.168.74.128:8000 --username testuser odlcs --odlc_dir forked/interop/client/tools/testdata
