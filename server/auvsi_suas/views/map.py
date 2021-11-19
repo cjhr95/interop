@@ -25,19 +25,19 @@ from sendfile import sendfile
 logger = logging.getLogger(__name__)
 
 
-def find_map(mission_pk, user_pk):
+def find_map(mission_pk, username):
     """Lookup requested Map model.
 
     Only the request's user's map will be returned.
 
     Args:
         mission_pk: Mission primary key.
-        user_pk: The user which owns the map.
+        username: The user which owns the map.
 
     Raises:
         Map.DoesNotExist: Map not found
     """
-    return Map.objects.get(mission_id=mission_pk, user_id=user_pk)
+    return Map.objects.get(mission_id=mission_pk, user__username=username)
 
 
 class MapImage(View):
@@ -55,7 +55,7 @@ class MapImage(View):
                 (request.user.username, username))
 
         try:
-            m = find_map(mission_pk, request.user.pk)
+            m = find_map(mission_pk, username)
         except Map.DoesNotExist:
             return HttpResponseNotFound('Map not found.')
 
@@ -74,7 +74,7 @@ class MapImage(View):
                 (request.user.username, username))
 
         try:
-            m = find_map(mission_pk, request.user.pk)
+            m = find_map(mission_pk, username)
         except:
             m = Map()
             m.mission_id = mission_pk
@@ -125,7 +125,7 @@ class MapImage(View):
                 (request.user.username, username))
 
         try:
-            m = find_map(mission_pk, request.user.pk)
+            m = find_map(mission_pk, username)
         except:
             return HttpResponseNotFound('Map not found.')
 

@@ -60,6 +60,11 @@ class TestMapCommon(TestCase):
 
         self.user = User.objects.create_user('testuser', 'testemail@x.com',
                                              'testpass')
+        self.user.save()
+        self.superuser = User.objects.create_superuser('superuser',
+                                                       'testemail@x.com',
+                                                       'superpass')
+        self.superuser.save()
 
     def filled_url(self):
         """Returns a filled map URL."""
@@ -158,6 +163,21 @@ class TestMapImage(TestMapCommon):
         """Successfully GET uploaded image"""
         self.upload_image('S.jpg')
 
+        response = self.client.get(self.filled_url())
+        self.assertEqual(200, response.status_code)
+        self.assertEqual('image/jpeg', response['Content-Type'])
+
+        data = b''.join(response.streaming_content)
+
+        # Did we get back what we uploaded?
+        with open(test_image('S.jpg'), 'rb') as f:
+            self.assertEqual(f.read(), data)
+
+    def test_get_image_superuser(self):
+        """Successfully GET uploaded image as superuser"""
+        self.upload_image('S.jpg')
+
+        self.client.force_login(self.superuser)
         response = self.client.get(self.filled_url())
         self.assertEqual(200, response.status_code)
         self.assertEqual('image/jpeg', response['Content-Type'])
